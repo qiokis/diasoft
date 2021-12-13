@@ -22,7 +22,7 @@ create table tAccessToken
              ExpireDate timestamp
              )
 
-Пример данных.
+ГЏГ°ГЁГ¬ГҐГ° Г¤Г Г­Г­Г»Гµ.
 tUser
 UserID  Name  Pass Mail
 1       Petr   123 Petr@dot.com
@@ -46,24 +46,24 @@ TokenID   AuditID  UserID ExpireDate
 1         6        3      01.01.2010 23:59:59.999
 2         9        1      01.01.2020 12:52:00.000
 
-Задания на SQL.
+Р—Р°РґР°РЅРёСЏ РЅР° SQL.
 
-1. Найти всех пользователей, которые зарегистрировались, но не подтвердили почту.
+1. РќР°Р№С‚Рё РІСЃРµС… РїРѕР»СЊР·РѕРІР°С‚РµР»РµР№, РєРѕС‚РѕСЂС‹Рµ Р·Р°СЂРµРіРёСЃС‚СЂРёСЂРѕРІР°Р»РёСЃСЊ, РЅРѕ РЅРµ РїРѕРґС‚РІРµСЂРґРёР»Рё РїРѕС‡С‚Сѓ.
  select userid
  from (select * from tAudit where ActionType = 1) as reg
  except select userid
  from (select * from tAudit where ActionType = 2) as mail_check;
 
-2. Найти всех пользователей у которых просрочился токен доступа, текущую дату время из функции GetDate()
+2. РќР°Р№С‚Рё РІСЃРµС… РїРѕР»СЊР·РѕРІР°С‚РµР»РµР№ Сѓ РєРѕС‚РѕСЂС‹С… РїСЂРѕСЃСЂРѕС‡РёР»СЃСЏ С‚РѕРєРµРЅ РґРѕСЃС‚СѓРїР°, С‚РµРєСѓС‰СѓСЋ РґР°С‚Сѓ РІСЂРµРјСЏ РёР· С„СѓРЅРєС†РёРё GetDate()
 select userid from tAccessToken where ExpireDate < current_timestamp;
 
-3. Найти всех пользователей которые зарегистрировались, но не разу не заходили в систему.
+3. РќР°Р№С‚Рё РІСЃРµС… РїРѕР»СЊР·РѕРІР°С‚РµР»РµР№ РєРѕС‚РѕСЂС‹Рµ Р·Р°СЂРµРіРёСЃС‚СЂРёСЂРѕРІР°Р»РёСЃСЊ, РЅРѕ РЅРµ СЂР°Р·Сѓ РЅРµ Р·Р°С…РѕРґРёР»Рё РІ СЃРёСЃС‚РµРјСѓ.
 select userid
 from (select * from tAudit where ActionType = 1) as reg
 except select userid
 from (select * from tAudit where ActionType = 3) as mail_check;
 
-4. Найти первых четырех пользователей, которые чаще всего неверно ввродят пароль.
+4. РќР°Р№С‚Рё РїРµСЂРІС‹С… С‡РµС‚С‹СЂРµС… РїРѕР»СЊР·РѕРІР°С‚РµР»РµР№, РєРѕС‚РѕСЂС‹Рµ С‡Р°С‰Рµ РІСЃРµРіРѕ РЅРµРІРµСЂРЅРѕ РІРІСЂРѕРґСЏС‚ РїР°СЂРѕР»СЊ.
 select userid, count(*) from tAudit where ActionType = 5
 group by userid
 limit 4;
